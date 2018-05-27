@@ -6,7 +6,6 @@ from math import log2, pow
 import sys
 from aubio import source, tempo
 import json
-import peakdetect
 from numpy import median, diff
 import matplotlib.pyplot as plt
 

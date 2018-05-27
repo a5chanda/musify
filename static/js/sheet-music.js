@@ -33,7 +33,7 @@ $(document).ready(function() {
         }
 
         // Size our svg:
-        renderer.resize(arr.length * scaleFactor, arr.length * 7); //size determines length/width of image
+        renderer.resize(arr.length * scaleFactor, arr.length * 8); //size determines length/width of image
 
         // And get a drawing context:
         var context = renderer.getContext();
@@ -46,19 +46,13 @@ $(document).ready(function() {
             staves[i].setContext(context).draw();       
         }
         
-        
-        
-
         // Connect it to the rendering context and draw!
-
-
-
 
         var vf = new VF.Factory({
           renderer: {
             elementId: 'sheet_music',
             width: (scaleFactor * arr.length),
-            height: 200
+            height: 0
           }
         });
         
@@ -90,6 +84,10 @@ $(document).ready(function() {
           }    
         }
         $('#song-wrapper').css('display', 'block');
+        //$('svg').forEach(function(index) {
+        //  if(index == 0)
+        //    $(this).css('height', '1000') 
+        //});
     });
   });
     $('#play-song').click(function() {
