@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from model import learn
+from model
 import nltk
 app = Flask(__name__, static_url_path='/static')
 
@@ -10,4 +10,4 @@ def hello(name=None):
 
 @app.route('/req', methods=['GET', 'POST'])
 def req():
-    return request.method
+    return model.init(request.get_json())
