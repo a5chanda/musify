@@ -184,7 +184,7 @@ def init(filename):
 
 
 def main():
-	print(init('twinkle.wav'))
+	print(init('mario.wav'))
 
 if __name__== "__main__":
 	main()

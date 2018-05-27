@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
-from model
-import nltk
+import model
 app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
@@ -10,4 +9,4 @@ def hello(name=None):
 
 @app.route('/req', methods=['GET', 'POST'])
 def req():
-    return model.init(request.get_json())
+    return model.init(request.form['name'])
