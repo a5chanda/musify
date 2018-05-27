@@ -69,7 +69,16 @@ def beats_to_bpm(beats, path):
         return median(bpms)
     else:
         print("not enough beats found in {:s}".format(path))
-        return 0    
+        return 0
+
+def key(arr):
+    import music21 as music
+    s1 = music.stream.Stream()
+    for i in arr:
+      s1.append(music.note.Note(i, type="quarter"))
+
+    return music.analysis.discrete.analyzeStream(s1, 'key')
+
 
 #if len(sys.argv) < 2:
 #    print("Usage: %s <filename> [samplerate]" % sys.argv[0])
@@ -148,9 +157,9 @@ def init(filename):
 	  # pick the highest-count/earliest item
 	  return max(groups, key=_auxfun)[0]
 
-	for i in pitches2: 
+	for i in pitches2:
 	    if count < l:
-	        count += 1 
+	        count += 1
 	        if i >= 300 and i <= 1100:
 	            temp.append(i)
 	    else:
@@ -158,11 +167,11 @@ def init(filename):
 	            roundArray(temp)
 	            arr.append(most_common(temp))
 	        temp = []
-	        count = 0   
+	        count = 0
 
 	C0 = 440.0*math.pow(2, -4.75)
 	name = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-	    
+
 	def pitch(freq):
 	    h = round(12*log2(freq/C0))
 	    octave = h // 12
@@ -174,12 +183,14 @@ def init(filename):
 	for i in arr:
 	    notes.append(pitch(i))
 
+    key = key(notes)
 	print(notes)
 	data = {}
 	data['notes'] = notes
 	data['bpm'] = bpm
 	data['beat_count'] = beat_count
-	json_data = json.dumps(data)   
+    data['key'] = key
+	json_data = json.dumps(data)
 	return json_data
 
 
