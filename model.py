@@ -10,6 +10,7 @@ from numpy import median, diff
 import matplotlib.pyplot as plt
 
 
+
 def get_file_bpm(path, params=None):
     """ Calculate the beats per minute (bpm) of a given file.
         path: path to the file
@@ -78,7 +79,7 @@ def get_file_bpm(path, params=None):
 #    print("Usage: %s <filename> [samplerate]" % sys.argv[0])
 #    sys.exit(1)
 
-filename = 'Canon.wav'
+filename = 'mario.wav'
 bpm = get_file_bpm(filename)
 print(bpm)
 
@@ -122,18 +123,43 @@ while True:
 l = len(times)/bpm
 arr = []
 count = 0
-max = 0
+temp = []
+
+import itertools
+import operator
+
+def roundArray(arr):
+    for i in arr:
+        round(i)
+
+def most_common(L):
+  # get an iterable of (item, iterable) pairs
+  SL = sorted((x, i) for i, x in enumerate(L))
+  # print 'SL:', SL
+  groups = itertools.groupby(SL, key=operator.itemgetter(0))
+  # auxiliary function to get "quality" for an item
+  def _auxfun(g):
+    item, iterable = g
+    count = 0
+    min_index = len(L)
+    for _, where in iterable:
+      count += 1
+      min_index = min(min_index, where)
+    # print 'item %r, count %r, minind %r' % (item, count, min_index)
+    return count, -min_index
+  # pick the highest-count/earliest item
+  return max(groups, key=_auxfun)[0]
 
 for i in pitches2: 
     if count < l:
         count += 1 
-        if i > max:
-            max = i
-        
+        if i >= 300 and i <= 1100:
+            temp.append(i)
     else:
-        if max >= 400 and max <= 1100 and (len(arr) == 0 or abs(max - arr[-1]) <= 400):
-            arr.append(max)
-        max = 0
+        if len(temp) > 0:
+            roundArray(temp)
+            arr.append(most_common(temp))
+        temp = []
         count = 0   
 
 C0 = 440.0*math.pow(2, -4.75)
@@ -155,68 +181,9 @@ print(notes)
 #print(pitches2)
 #_max, _min = peakdetect.peakdetect(pitches2, times, lookahead=200, delta=0)
 #print(_max)
-##plt.plot(times, pitches2)
-##plt.show()
+#plt.plot(times, pitches2)
+#plt.show()
 
 
 #_max, _min = peakdetect.peakdetect(pitches2, times, lookahead=300, delta=0)
 if 0: sys.exit(0)
-'''
-#print pitches
-import os.path
-from numpy import array, ma
-import matplotlib.pyplot as plt
-from demo_waveform_plot import get_waveform_plot, set_xlabels_sample2time
-
-skip = 1
-
-pitches = array(pitches[skip:])
-confidences = array(confidences[skip:])
-times = [t * hop_s for t in range(len(pitches))]
-
-fig = plt.figure()
-
-ax1 = fig.add_subplot(311)
-ax1 = get_waveform_plot(filename, samplerate = samplerate, block_size = hop_s, ax = ax1)
-plt.setp(ax1.get_xticklabels(), visible = False)
-ax1.set_xlabel('')
-
-def array_from_text_file(filename, dtype = 'float'):
-    filename = os.path.join(os.path.dirname(__file__), filename)
-    return array([line.split() for line in open(filename).readlines()],
-        dtype = dtype)
-
-ax2 = fig.add_subplot(312, sharex = ax1)
-ground_truth = os.path.splitext(filename)[0] + '.f0.Corrected'
-if os.path.isfile(ground_truth):
-    ground_truth = array_from_text_file(ground_truth)
-    true_freqs = ground_truth[:,2]
-    true_freqs = ma.masked_where(true_freqs < 2, true_freqs)
-    true_times = float(samplerate) * ground_truth[:,0]
-    ax2.plot(true_times, true_freqs, 'r')
-    ax2.axis( ymin = 0.9 * true_freqs.min(), ymax = 1.1 * true_freqs.max() )
-# plot raw pitches
-ax2.plot(times, pitches, '.g')
-# plot cleaned up pitches
-cleaned_pitches = pitches
-#cleaned_pitches = ma.masked_where(cleaned_pitches < 0, cleaned_pitches)
-#cleaned_pitches = ma.masked_where(cleaned_pitches > 120, cleaned_pitches)
-cleaned_pitches = ma.masked_where(confidences < tolerance, cleaned_pitches)
-ax2.plot(times, cleaned_pitches, '.-')
-#ax2.axis( ymin = 0.9 * cleaned_pitches.min(), ymax = 1.1 * cleaned_pitches.max() )
-#ax2.axis( ymin = 55, ymax = 70 )
-plt.setp(ax2.get_xticklabels(), visible = False)
-ax2.set_ylabel('f0 (midi)')
-
-# plot confidence
-ax3 = fig.add_subplot(313, sharex = ax1)
-# plot the confidence
-ax3.plot(times, confidences)
-# draw a line at tolerance
-ax3.plot(times, [tolerance]*len(confidences))
-ax3.axis( xmin = times[0], xmax = times[-1])
-ax3.set_ylabel('condidence')
-set_xlabels_sample2time(ax3, times[-1], samplerate)
-plt.show()
-#plt.savefig(os.path.basename(filename) + '.svg')
-'''
