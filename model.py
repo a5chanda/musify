@@ -8,9 +8,11 @@ from aubio import source, pitch, tempo
 import peakdetect
 from numpy import median, diff
 import matplotlib.pyplot as plt
+from abjad import *
 
 
-
+note = Note("c'4")
+show(note)
 def get_file_bpm(path, params=None):
     """ Calculate the beats per minute (bpm) of a given file.
         path: path to the file
