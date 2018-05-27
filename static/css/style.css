@@ -1601,6 +1601,7 @@ button.btn-md:hover {
 }
 
 #song-wrapper {
+  display: none;
   margin-top: 50px;
   margin-bottom: 50px;
 }

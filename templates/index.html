@@ -13,6 +13,7 @@
 
         <script src="../static/js/vendor/jquery-1.11.2.min.js"></script>
 
+        <script src="https://tonejs.github.io/build/Tone.min.js"></script>
         <link rel="stylesheet" href="../static/css/iconfont.css">
         <link rel="stylesheet" href="../static/fonts/stylesheet.css">
         <link rel="stylesheet" href="../static/css/font-awesome.min.css">
@@ -181,19 +182,19 @@
                                                           <div class="col-sm-4">
                                                             <div style="text-align:center">
                                                               <i class="song-icons fas fa-stopwatch"></i>
-                                                              <h3 class="options"></h3>
+                                                              <h3 id="bpm" class="options"></h3>
                                                             </div>
                                                           </div>
                                                           <div class="col-sm-4">
                                                             <div style="text-align:center">
                                                               <i class="song-icons fas fa-music"></i>
-                                                              <h3 class="options"></h3>
+                                                              <h3 id="key" class="options"></h3>
                                                             </div>
                                                           </div>
                                                           <div class="col-sm-4">
                                                             <div style="text-align:center">
                                                               <i class="song-icons fas fa-play"></i>
-                                                              <a id="play-song"><h3 class="options"></h3></a>
+                                                              <a id="play-song"><h3 class="options">Play</h3></a>
                                                             </div>
                                                           </div>
                                                         </div>
@@ -324,7 +325,7 @@
                                             </div>
                                             <div class="single_team_text_overlay">
                                                 <h4>Abhinav Chanda</h4>
-                                                <p>DESIGNER</p>
+                                                <p>DEVELOPER</p>
                                                 <div class="team_overlay_socail">
                                                     <a href=""><i class="fa fa-facebook"></i></a>
                                                     <a href=""><i class="fa fa-twitter"></i></a>

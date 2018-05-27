@@ -183,19 +183,13 @@ def init(filename):
 	for i in arr:
 	    notes.append(pitch(i))
 
-    key = key(notes)
 	print(notes)
 	data = {}
+	mkey = key(notes)
+	data['key'] = str(mkey)
 	data['notes'] = notes
 	data['bpm'] = bpm
+	#data['key'] = mkey
 	data['beat_count'] = beat_count
-    data['key'] = key
 	json_data = json.dumps(data)
 	return json_data
-
-
-def main():
-	print(init('mario.wav'))
-
-if __name__== "__main__":
-	main()
